@@ -3,7 +3,7 @@ package vazkii.patchouli.forge.network;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.network.PacketDistributor;
 
 import vazkii.patchouli.client.book.ClientBookRegistry;
@@ -44,10 +44,10 @@ public class ForgeMessageOpenBookGui {
 	}
 
 	public static void send(ServerPlayer player, ResourceLocation book, @Nullable ResourceLocation entry, int page) {
-		ForgeNetworkHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new ForgeMessageOpenBookGui(book, entry, page));
+		ForgeNetworkHandler.CHANNEL.send(new ForgeMessageOpenBookGui(book, entry, page), PacketDistributor.PLAYER.with(player));
 	}
 
-	public void handle(Supplier<NetworkEvent.Context> ctx) {
+	public void handle(Supplier<CustomPayloadEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> ClientBookRegistry.INSTANCE.displayBookGui(book, entry, page));
 		ctx.get().setPacketHandled(true);
 	}

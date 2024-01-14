@@ -3,6 +3,7 @@ package vazkii.patchouli.client.book.page.abstr;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -23,7 +24,7 @@ public abstract class PageDoubleRecipeRegistry<T extends Recipe<?>> extends Page
 	@Nullable
 	private T getRecipe(Level level, ResourceLocation id) {
 		RecipeManager manager = level.getRecipeManager();
-		return (T) manager.byKey(id).filter(recipe -> recipe.getType() == recipeType).orElse(null);
+		return (T) manager.byKey(id).map(RecipeHolder::value).filter(recipe -> recipe.getType() == recipeType).orElse(null);
 	}
 
 	@Override

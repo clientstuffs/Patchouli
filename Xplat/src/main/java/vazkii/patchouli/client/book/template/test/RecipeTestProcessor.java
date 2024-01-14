@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 
@@ -20,7 +21,7 @@ public class RecipeTestProcessor implements IComponentProcessor {
 		// TODO probably add a recipe serializer?
 		String recipeId = variables.get("recipe").asString();
 		RecipeManager manager = level.getRecipeManager();
-		recipe = manager.byKey(new ResourceLocation(recipeId)).orElseThrow(IllegalArgumentException::new);
+		recipe = manager.byKey(new ResourceLocation(recipeId)).map(RecipeHolder::value).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override

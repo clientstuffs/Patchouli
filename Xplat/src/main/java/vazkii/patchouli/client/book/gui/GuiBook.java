@@ -134,7 +134,7 @@ public abstract class GuiBook extends Screen {
 
 	private void drawScreenAfterScale(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		resetTooltip();
-		renderBackground(graphics);
+		renderBackground(graphics, 0, 0, 0.0f);
 
 		graphics.pose().pushPose();
 		graphics.pose().translate(bookLeft, bookTop, 0);
@@ -341,10 +341,15 @@ public abstract class GuiBook extends Screen {
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double scroll) {
-		if (scroll < 0) {
+	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+		if (scrollX < 0) {
 			changePage(false, true);
-		} else if (scroll > 0) {
+		} else if (scrollX > 0) {
 			changePage(true, true);
 		}
 
