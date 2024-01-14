@@ -14,19 +14,19 @@ public class ForgeNetworkHandler {
 			.networkProtocolVersion(PROTOCOL_VERSION)
 			.clientAcceptedVersions(Channel.VersionTest.exact(PROTOCOL_VERSION))
 			.serverAcceptedVersions(Channel.VersionTest.exact(PROTOCOL_VERSION))
-			.simpleChannel();
+			.simpleChannel()
+			.messageBuilder(ForgeMessageOpenBookGui.class)
+			.encoder(ForgeMessageOpenBookGui::encode)
+			.decoder(ForgeMessageOpenBookGui::decode)
+			.consumerMainThread(ForgeMessageOpenBookGui::handle)
+			.add()
+			.messageBuilder(ForgeMessageReloadBookContents.class)
+			.encoder(ForgeMessageReloadBookContents::encode)
+			.decoder(ForgeMessageReloadBookContents::decode)
+			.consumerMainThread(ForgeMessageReloadBookContents::handle)
+			.add();
 
 	public static void registerMessages() {
-		// ForgeMessageOpenBookGui::encode, ,
-		CHANNEL
-				.messageBuilder(ForgeMessageOpenBookGui.class)
-				.encoder(ForgeMessageOpenBookGui::encode)
-				.decoder(ForgeMessageOpenBookGui::decode)
-				.consumerMainThread((book, context) -> book.handle(() -> context));
-		CHANNEL
-				.messageBuilder(ForgeMessageReloadBookContents.class)
-				.encoder(ForgeMessageReloadBookContents::encode)
-				.decoder(ForgeMessageReloadBookContents::decode)
-				.consumerMainThread((contents, context) -> contents.handle(() -> context));
+		// Static initializer.
 	}
 }

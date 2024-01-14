@@ -7,8 +7,6 @@ import net.minecraftforge.network.PacketDistributor;
 
 import vazkii.patchouli.client.book.ClientBookRegistry;
 
-import java.util.function.Supplier;
-
 public class ForgeMessageReloadBookContents {
 	public ForgeMessageReloadBookContents() {}
 
@@ -22,8 +20,8 @@ public class ForgeMessageReloadBookContents {
 		return new ForgeMessageReloadBookContents();
 	}
 
-	public void handle(Supplier<CustomPayloadEvent.Context> ctx) {
-		ctx.get().enqueueWork(ClientBookRegistry.INSTANCE::reload);
-		ctx.get().setPacketHandled(true);
+	public void handle(CustomPayloadEvent.Context ctx) {
+		ctx.enqueueWork(ClientBookRegistry.INSTANCE::reload);
+		ctx.setPacketHandled(true);
 	}
 }

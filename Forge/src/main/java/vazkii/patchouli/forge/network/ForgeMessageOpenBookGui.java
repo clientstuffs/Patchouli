@@ -10,8 +10,6 @@ import vazkii.patchouli.client.book.ClientBookRegistry;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Supplier;
-
 public class ForgeMessageOpenBookGui {
 	private final ResourceLocation book;
 	@Nullable private final ResourceLocation entry;
@@ -47,8 +45,8 @@ public class ForgeMessageOpenBookGui {
 		ForgeNetworkHandler.CHANNEL.send(new ForgeMessageOpenBookGui(book, entry, page), PacketDistributor.PLAYER.with(player));
 	}
 
-	public void handle(Supplier<CustomPayloadEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> ClientBookRegistry.INSTANCE.displayBookGui(book, entry, page));
-		ctx.get().setPacketHandled(true);
+	public void handle(CustomPayloadEvent.Context ctx) {
+		ctx.enqueueWork(() -> ClientBookRegistry.INSTANCE.displayBookGui(book, entry, page));
+		ctx.setPacketHandled(true);
 	}
 }
